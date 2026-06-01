@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Fun English! 🌟</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --sky:#87CEEB;--sun:#FFD700;--grass:#7EC850;
+  --pink:#FF6B9D;--purple:#A855F7;--orange:#FF8C42;
+  --blue:#3B82F6;--green:#22C55E;--red:#EF4444;--yellow:#FCD34D;
+  --white:#fff;--card:#fff;
+}
+body{
+  font-family:'Nunito',sans-serif;
+  background:linear-gradient(180deg,#87CEEB 0%,#B0E0FF 40%,#7EC850 100%);
+  min-height:100vh;overflow-x:hidden;
+}
+/* floating clouds */
+.cloud{position:fixed;background:#fff;border-radius:50px;opacity:0.8;pointer-events:none}
+.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;border-radius:50%}
+.c1{width:80px;height:30px;top:8%;left:-100px;animation:float-cloud 18s linear infinite}
+.c1::before{width:40px;height:40px;top:-20px;left:10px}
+.c1::after{width:30px;height:30px;top:-15px;left:35px}
+.c2{width:60px;height:22px;top:20%;left:-80px;animation:float-cloud 24s linear infinite 6s}
+.c2::before{width:30px;height:30px;top:-15px;left:8px}
+.c2::after{width:24px;height:24px;top:-12px;left:28px}
+.c3{width:100px;height:36px;top:5%;left:-120px;animation:float-cloud 20s linear infinite 12s}
+.c3::before{width:50px;height:50px;top:-25px;left:12px}
+.c3::after{width:38px;height:38px;top:-20px;left:45px}
+@keyframes float-cloud{to{left:110%}}
+
+.app{max-width:420px;margin:0 auto;padding:12px 10px 20px;position:relative;z-index:1}
+
+/* Header */
+.hdr{text-align:center;margin-bottom:16px}
+.hdr h1{font-family:'Fredoka One',cursive;font-size:36px;color:#fff;text-shadow:3px 3px 0 #FF6B9D,6px 6px 0 rgba(0,0,0,0.1);letter-spacing:1px;margin-bottom:4px}
+.hdr .sub{font-size:14px;color:#fff;font-weight:700;background:rgba(255,255,255,0.3);border-radius:20px;padding:4px 16px;display:inline-block}
+.stars{font-size:20px;margin-top:6px;letter-spacing:4px}
+
+/* Score */
+.score-bar{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.9);border-radius:20px;padding:8px 16px;margin-bottom:14px;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+.score-label{font-size:12px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.score-num{font-family:'Fredoka One',cursive;font-size:28px;color:var(--purple)}
+.streak{font-size:13px;font-weight:700;color:var(--orange)}
+
+/* Game selector */
+.game-tabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px}
+.game-tab{flex-shrink:0;padding:8px 14px;border-radius:20px;border:3px solid transparent;background:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;box-shadow:0 3px 8px rgba(0,0,0,0.1)}
+.game-tab.active{color:#fff;transform:scale(1.05);box-shadow:0 5px 15px rgba(0,0,0,0.2)}
+.game-tab:nth-child(1).active{background:var(--pink);border-color:#ff4080}
+.game-tab:nth-child(2).active{background:var(--blue);border-color:#2563eb}
+.game-tab:nth-child(3).active{background:var(--green);border-color:#16a34a}
+.game-tab:nth-child(4).active{background:var(--orange);border-color:#ea6a1a}
+
+/* Game card */
+.game-card{background:#fff;border-radius:28px;padding:20px;box-shadow:0 8px 30px rgba(0,0,0,0.12);margin-bottom:12px}
+.game-title{font-family:'Fredoka One',cursive;font-size:22px;text-align:center;margin-bottom:16px}
+
+/* Animal game */
+.animal-display{text-align:center;margin-bottom:16px}
+.animal-emoji{font-size:100px;display:block;animation:bounce 1s ease-in-out infinite alternate;cursor:pointer;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.15))}
+@keyframes bounce{from{transform:translateY(0) scale(1)}to{transform:translateY(-12px) scale(1.05)}}
+.animal-word{font-family:'Fredoka One',cursive;font-size:42px;color:var(--purple);text-align:center;margin-bottom:4px;letter-spacing:2px}
+.animal-kana{font-size:14px;color:#888;text-align:center;margin-bottom:16px}
+.speak-btn{display:block;margin:0 auto 16px;padding:10px 28px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;border:none;border-radius:30px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 15px rgba(168,85,247,0.4);transition:transform 0.1s}
+.speak-btn:active{transform:scale(0.95)}
+
+/* Quiz options */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.opt-btn{padding:14px 8px;border-radius:18px;border:3px solid #e5e7eb;background:#f9fafb;font-size:22px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;transition:all 0.15s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.opt-btn span.opt-emoji{font-size:36px}
+.opt-btn span.opt-word{font-size:13px;color:#555}
+.opt-btn:active{transform:scale(0.95)}
+.opt-btn.correct{background:#dcfce7;border-color:#22c55e;animation:pop 0.3s}
+.opt-btn.wrong{background:#fee2e2;border-color:#ef4444;animation:shake 0.3s}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+/* Color game */
+.color-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.color-box{aspect-ratio:1;border-radius:20px;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding:8px;font-size:12px;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.3);border:4px solid transparent;transition:all 0.15s;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.color-box:active{transform:scale(0.93)}
+.color-box.selected{border-color:#fff;transform:scale(1.08);box-shadow:0 6px 20px rgba(0,0,0,0.25)}
+.color-question{font-family:'Fredoka One',cursive;font-size:26px;text-align:center;margin-bottom:14px}
+
+/* Number game */
+.number-display{text-align:center;margin-bottom:16px}
+.number-big{font-family:'Fredoka One',cursive;font-size:90px;line-height:1;color:var(--purple);text-shadow:4px 4px 0 rgba(168,85,247,0.2)}
+.dots-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.dot{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));box-shadow:0 2px 6px rgba(168,85,247,0.4)}
+.num-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.num-btn{padding:16px 4px;border-radius:16px;border:3px solid #e5e7eb;background:#f9fafb;font-family:'Fredoka One',cursive;font-size:28px;cursor:pointer;transition:all 0.15s;color:var(--purple)}
+.num-btn:active{transform:scale(0.93)}
+.num-btn.correct{background:#dcfce7;border-color:#22c55e}
+.num-btn.wrong{background:#fee2e2;border-color:#ef4444}
+
+/* Alphabet game */
+.letter-display{font-family:'Fredoka One',cursive;font-size:110px;text-align:center;line-height:1;margin-bottom:8px;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.letter-word{text-align:center;font-size:16px;color:#555;font-weight:700;margin-bottom:16px}
+.alpha-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.alpha-btn{padding:16px 4px;border-radius:16px;border:3px solid #e5e7eb;background:#f9fafb;font-family:'Fredoka One',cursive;font-size:32px;cursor:pointer;transition:all 0.15s;color:var(--blue)}
+.alpha-btn:active{transform:scale(0.93)}
+.alpha-btn.correct{background:#dcfce7;border-color:#22c55e}
+.alpha-btn.wrong{background:#fee2e2;border-color:#ef4444}
+
+/* Next btn */
+.next-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--orange),#FF6B9D);color:#fff;border:none;border-radius:20px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:14px;box-shadow:0 4px 15px rgba(255,140,66,0.4);display:none;transition:transform 0.1s}
+.next-btn:active{transform:scale(0.97)}
+.next-btn.show{display:block;animation:pop 0.3s}
+
+/* Feedback */
+.feedback{text-align:center;font-size:22px;font-weight:800;min-height:32px;margin-top:10px}
+.feedback.good{color:var(--green)}
+.feedback.bad{color:var(--red)}
+
+/* Confetti */
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;animation:fall 1.5s ease-in forwards}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+<div class="cloud c3"></div>
+
+<div class="app">
+  <div class="hdr">
+    <h1>🌟 Fun English!</h1>
+    <div class="sub">Let's Learn Together!</div>
+    <div class="stars" id="star-display">⭐⭐⭐</div>
+  </div>
+
+  <div class="score-bar">
+    <div><div class="score-label">Score</div><div class="score-num" id="score">0</div></div>
+    <div style="font-size:28px">🎮</div>
+    <div style="text-align:right"><div class="score-label">Streak</div><div class="streak" id="streak">🔥 0</div></div>
+  </div>
+
+  <div class="game-tabs">
+    <button class="game-tab active" onclick="switchGame('animals',this)">🐾 Animals</button>
+    <button class="game-tab" onclick="switchGame('colors',this)">🎨 Colors</button>
+    <button class="game-tab" onclick="switchGame('numbers',this)">🔢 Numbers</button>
+    <button class="game-tab" onclick="switchGame('alphabet',this)">🔤 ABC</button>
+  </div>
+
+  <div id="game-area"></div>
+</div>
+
+<script>
+const animals=[
+  {emoji:'🐶',word:'DOG',kana:'ドッグ'},
+  {emoji:'🐱',word:'CAT',kana:'キャット'},
+  {emoji:'🐰',word:'RABBIT',kana:'ラビット'},
+  {emoji:'🐻',word:'BEAR',kana:'ベア'},
+  {emoji:'🦁',word:'LION',kana:'ライオン'},
+  {emoji:'🐘',word:'ELEPHANT',kana:'エレファント'},
+  {emoji:'🐸',word:'FROG',kana:'フロッグ'},
+  {emoji:'🐧',word:'PENGUIN',kana:'ペンギン'},
+  {emoji:'🦊',word:'FOX',kana:'フォックス'},
+  {emoji:'🐼',word:'PANDA',kana:'パンダ'},
+  {emoji:'🦋',word:'BUTTERFLY',kana:'バタフライ'},
+  {emoji:'🐬',word:'DOLPHIN',kana:'ドルフィン'},
+];
+const colors=[
+  {name:'RED',color:'#EF4444',emoji:'🍎'},
+  {name:'BLUE',color:'#3B82F6',emoji:'🫐'},
+  {name:'GREEN',color:'#22C55E',emoji:'🍀'},
+  {name:'YELLOW',color:'#FCD34D',emoji:'⭐'},
+  {name:'PINK',color:'#EC4899',emoji:'🌸'},
+  {name:'ORANGE',color:'#F97316',emoji:'🍊'},
+  {name:'PURPLE',color:'#A855F7',emoji:'🍇'},
+  {name:'WHITE',color:'#e5e7eb',emoji:'☁️'},
+  {name:'BLACK',color:'#374151',emoji:'🖤'},
+];
+const numbers=[1,2,3,4,5,6,7,8,9,10];
+const alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const alphaWords={A:'Apple 🍎',B:'Ball ⚽',C:'Cat 🐱',D:'Dog 🐶',E:'Elephant 🐘',F:'Fish 🐟',G:'Giraffe 🦒',H:'Hat 🎩',I:'Ice cream 🍦',J:'Juice 🧃',K:'Kite 🪁',L:'Lion 🦁',M:'Moon 🌙',N:'Nose 👃',O:'Orange 🍊',P:'Penguin 🐧',Q:'Queen 👑',R:'Rainbow 🌈',S:'Star ⭐',T:'Tiger 🐯',U:'Umbrella ☂️',V:'Violin 🎻',W:'Watermelon 🍉',X:'Xylophone 🎵',Y:'Yogurt 🥛',Z:'Zebra 🦓'};
+
+let score=0,streakCount=0,currentGame='animals';
+let currentQ=null,answered=false;
+
+function switchGame(g,btn){
+  currentGame=g;
+  document.querySelectorAll('.game-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  answered=false;
+  renderGame();
+}
+
+function renderGame(){
+  if(currentGame==='animals') renderAnimals();
+  else if(currentGame==='colors') renderColors();
+  else if(currentGame==='numbers') renderNumbers();
+  else renderAlphabet();
+}
+
+function shuffle(arr){return [...arr].sort(()=>Math.random()-0.5)}
+
+function renderAnimals(){
+  const correct=animals[Math.floor(Math.random()*animals.length)];
+  let opts=shuffle(animals.filter(a=>a.word!==correct.word)).slice(0,3);
+  opts=shuffle([...opts,correct]);
+  currentQ=correct;
+  document.getElementById('game-area').innerHTML=`
+    <div class="game-card">
+      <div class="game-title" style="color:#A855F7">🐾 What animal is this?</div>
+      <div class="animal-display">
+        <span class="animal-emoji" onclick="speakWord('${correct.word}')">${correct.emoji}</span>
+        <div class="animal-word">${correct.word}</div>
+        <div class="animal-kana">${correct.kana}</div>
+      </div>
+      <button class="speak-btn" onclick="speakWord('${correct.word}')">🔊 Listen!</button>
+      <div style="font-size:14px;font-weight:700;color:#888;text-align:center;margin-bottom:8px">Tap the right picture!</div>
+      <div class="options">
+        ${opts.map(o=>`<button class="opt-btn" onclick="checkAnimal('${o.word}','${correct.word}',this)">
+          <span class="opt-emoji">${o.emoji}</span>
+          <span class="opt-word">${o.word}</span>
+        </button>`).join('')}
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="renderAnimals()">Next ➡️</button>
+    </div>`;
+  speakWord(correct.word);
+}
+
+function checkAnimal(chosen,correct,btn){
+  if(answered) return;
+  answered=true;
+  const isRight=chosen===correct;
+  btn.classList.add(isRight?'correct':'wrong');
+  updateScore(isRight);
+  document.getElementById('feedback').textContent=isRight?'⭐ Great job!':'💪 Try again!';
+  document.getElementById('feedback').className='feedback '+(isRight?'good':'bad');
+  document.getElementById('next-btn').classList.add('show');
+  if(isRight){confetti();speakWord('Great job!');}
+  document.getElementById('next-btn').onclick=()=>{answered=false;renderAnimals();};
+}
+
+function renderColors(){
+  const correct=colors[Math.floor(Math.random()*colors.length)];
+  let opts=shuffle(colors.filter(c=>c.name!==correct.name)).slice(0,5);
+  opts=shuffle([...opts,correct]);
+  currentQ=correct;
+  document.getElementById('game-area').innerHTML=`
+    <div class="game-card">
+      <div class="game-title" style="color:#3B82F6">🎨 Find the color!</div>
+      <div class="color-question">Tap <span style="color:${correct.color};text-shadow:1px 1px 0 rgba(0,0,0,0.1)">${correct.name}</span>! ${correct.emoji}</div>
+      <div class="color-grid">
+        ${opts.map(c=>`<div class="color-box" style="background:${c.color}" onclick="checkColor('${c.name}','${correct.name}',this)">${c.name}</div>`).join('')}
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="">Next ➡️</button>
+    </div>`;
+  speakWord(correct.name);
+}
+
+function checkColor(chosen,correct,el){
+  if(answered) return;
+  answered=true;
+  const isRight=chosen===correct;
+  el.classList.add('selected');
+  el.style.borderColor=isRight?'#22c55e':'#ef4444';
+  updateScore(isRight);
+  document.getElementById('feedback').textContent=isRight?'⭐ Perfect!':'💪 Keep trying!';
+  document.getElementById('feedback').className='feedback '+(isRight?'good':'bad');
+  document.getElementById('next-btn').classList.add('show');
+  if(isRight) confetti();
+  document.getElementById('next-btn').onclick=()=>{answered=false;renderColors();};
+}
+
+function renderNumbers(){
+  const correct=numbers[Math.floor(Math.random()*numbers.length)];
+  let opts=shuffle(numbers.filter(n=>n!==correct)).slice(0,5);
+  opts=shuffle([...opts,correct]);
+  const dots='<div class="dot"></div>'.repeat(correct);
+  document.getElementById('game-area').innerHTML=`
+    <div class="game-card">
+      <div class="game-title" style="color:#22C55E">🔢 Count & Find!</div>
+      <div class="number-display">
+        <div class="dots-row">${dots}</div>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:#888;text-align:center;margin-bottom:10px">How many dots? Tap the number!</div>
+      <div class="num-options">
+        ${opts.map(n=>`<button class="num-btn" onclick="checkNumber(${n},${correct},this)">${n}</button>`).join('')}
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn">Next ➡️</button>
+    </div>`;
+  speakWord('Count the dots! How many?');
+}
+
+function checkNumber(chosen,correct,btn){
+  if(answered) return;
+  answered=true;
+  const isRight=chosen===correct;
+  btn.classList.add(isRight?'correct':'wrong');
+  updateScore(isRight);
+  document.getElementById('feedback').textContent=isRight?`⭐ Yes! ${correct}!`:'💪 Try again!';
+  document.getElementById('feedback').className='feedback '+(isRight?'good':'bad');
+  document.getElementById('next-btn').classList.add('show');
+  if(isRight){confetti();speakWord(String(correct));}
+  document.getElementById('next-btn').onclick=()=>{answered=false;renderNumbers();};
+}
+
+function renderAlphabet(){
+  const correct=alphabet[Math.floor(Math.random()*alphabet.length)];
+  let opts=shuffle(alphabet.filter(l=>l!==correct)).slice(0,5);
+  opts=shuffle([...opts,correct]);
+  document.getElementById('game-area').innerHTML=`
+    <div class="game-card">
+      <div class="game-title" style="color:#3B82F6">🔤 Find the Letter!</div>
+      <div class="letter-display">${correct}</div>
+      <div class="letter-word">${alphaWords[correct]}</div>
+      <div style="font-size:14px;font-weight:700;color:#888;text-align:center;margin-bottom:10px">Tap the letter <b style="color:#3B82F6">${correct}</b>!</div>
+      <div class="alpha-options">
+        ${opts.map(l=>`<button class="alpha-btn" onclick="checkAlpha('${l}','${correct}',this)">${l}</button>`).join('')}
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn">Next ➡️</button>
+    </div>`;
+  speakWord(correct+'. '+alphaWords[correct].split(' ')[0]);
+}
+
+function checkAlpha(chosen,correct,btn){
+  if(answered) return;
+  answered=true;
+  const isRight=chosen===correct;
+  btn.classList.add(isRight?'correct':'wrong');
+  updateScore(isRight);
+  document.getElementById('feedback').textContent=isRight?`⭐ ${correct} is right!`:'💪 Try again!';
+  document.getElementById('feedback').className='feedback '+(isRight?'good':'bad');
+  document.getElementById('next-btn').classList.add('show');
+  if(isRight){confetti();speakWord('Great job! '+correct);}
+  document.getElementById('next-btn').onclick=()=>{answered=false;renderAlphabet();};
+}
+
+function updateScore(isRight){
+  if(isRight){
+    score+=10;
+    streakCount++;
+  } else {
+    streakCount=0;
+  }
+  document.getElementById('score').textContent=score;
+  document.getElementById('streak').textContent='🔥 '+streakCount;
+  const stars=score<30?'⭐':score<80?'⭐⭐':score<150?'⭐⭐⭐':'🌟🌟🌟🌟🌟';
+  document.getElementById('star-display').textContent=stars;
+}
+
+function speakWord(text){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=0.85;u.pitch=1.2;
+  window.speechSynthesis.speak(u);
+}
+
+function confetti(){
+  const colors=['#FF6B9D','#A855F7','#3B82F6','#22C55E','#FCD34D','#F97316'];
+  for(let i=0;i<18;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}%;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.5}s;animation-duration:${1+Math.random()}s;transform:rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),2000);
+  }
+}
+
+renderGame();
+</script>
+</body>
+</html>
